@@ -16,8 +16,11 @@ file2=$PWD/$(ls *_2.fastq)
 
 # cutadapt
 	# Adaptors to trim
-	A1="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
-	A2="GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG"
+	A1="GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 1
+	A2="GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATGTATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 2
+	A6="GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCCAATATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 6
+	A7="GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 7
+	A8="GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 8
 
 	# quality threshold for the 3' trimming.
 	Q=15	
@@ -86,11 +89,11 @@ if [ "$1" == "0" ]; then
 	# Remove adaptors
 	printf "\n# cutadapt\n" >> $LOGFILE
 	printf "[ `date` ]\n" >> $LOGFILE
-	cutadapt -b $A1 -b $A2 -q $Q -O $O -e $E -n $N -m $M -o "$SUB_DIR/${file1%.fastq}.FXT.CA.fastq" "${file1%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
+	cutadapt -b $A1 -b $A2 -b $A6 -b $A7 -b $A8 -q $Q -O $O -e $E -n $N -m $M -o "$SUB_DIR/${file1%.fastq}.FXT.CA.fastq" "${file1%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
 		echo !! >> $LOGFILE
 		ckeckExit $? "cutadapt on file 1"
 	printf "[ `date` ]\n" >> $LOGFILE
-	cutadapt -b $A1 -b $A2 -q $Q -O $O -e $E -n $N -m $M -o "$SUB_DIR/${file2%.fastq}.FXT.CA.fastq" "${file2%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
+	cutadapt -b $A1 -b $A2 -b $A6 -b $A7 -b $A8 -q $Q -O $O -e $E -n $N -m $M -o "$SUB_DIR/${file2%.fastq}.FXT.CA.fastq" "${file2%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
 		echo !! >> $LOGFILE
 		ckeckExit $? "cutadapt on file 2"
 
