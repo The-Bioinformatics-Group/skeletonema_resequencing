@@ -4,8 +4,10 @@ set -o history -o histexpand
 
 # Files and directories
 #SUB_DIR="150723_BC6T2NANXX"
-file1=$(ls $SUB_DIR/*_1.fastq)
-file2=$(ls $SUB_DIR/*_2.fastq)
+#file1=$(ls $SUB_DIR/*_1.fastq)
+#file2=$(ls $SUB_DIR/*_2.fastq)
+file1=$PWD/$(ls *_1.fastq)
+file2=$PWD/$(ls *_2.fastq)
 
 # Options
 # fastx_trimmer
