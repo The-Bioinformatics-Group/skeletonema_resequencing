@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Set the working directory for the analysis
+#$ -wd /nobackup/data6/skeletonema_resequencing/data/Resequenced_Strains_Godhe_15_01/P1872_115/150723_BC6T2NANXX
+
+# Set teh queue to run the analysis on
+#$ -q high_mem
+
+# Shell used for this job
+#$ -S /bin/bash
+
+    
+    /nobackup/data6/skeletonema_resequencing/code/prepare_sequences.sh
+
