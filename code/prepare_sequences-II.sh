@@ -1,4 +1,9 @@
 #!/bin/bash
+
+#$ -cwd 
+#$ -q high_mem 
+#$ -S /bin/bash
+
 # Enable history expantion in order to save the comands to the log-file.
 set -o history -o histexpand
 
@@ -14,6 +19,7 @@ set -o history -o histexpand
 	A6="GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCCAATATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 6
 	A7="GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 7
 	A8="GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 8
+	A9="GCGTCGTGTAGGGAAAGAGTGTAGGCTATAGTGTAGATCTCGGTGGTCGCCGTATCATTAAAAAAAAAA" # Illumina Single End PCR Primer 1
 
 	# quality threshold for the 3' trimming.
 	Q=15	
@@ -65,42 +71,42 @@ if [ "$1" == "0" ]; then
 #	echo $PWD
 #    	fastqc *.fastq.gz
 	# Gunzip the fastq files
-	gunzip $(ls *_1.fastq.gz) 2> $ERROR
-	gunzip $(ls *_2.fastq.gz) 2> $ERROR
-
+#	gunzip $(ls *_1.fastq.gz) 2> $ERROR
+#	gunzip $(ls *_2.fastq.gz) 2> $ERROR
+#
 	file1=$PWD/$(ls *_1.fastq)
 	file2=$PWD/$(ls *_2.fastq)
 
-	# Trim 5' end of reads
-	printf "# fastx_trimmer\n" >> $LOGFILE
-	printf "[ `date` ]\n" >> $LOGFILE
-	fastx_trimmer -Q33 -i $file1 -f $F -o "${file1%.fastq}.FXT.fastq" 2>> $ERROR
-		echo !! >> $LOGFILE
-		ckeckExit $? "fastx_trimmer on file 1"
-	printf "[ `date` ]\n" >> $LOGFILE
-	fastx_trimmer -Q33 -i $file2 -f $F -o "${file2%.fastq}.FXT.fastq" 2>> $ERROR
-		echo !! >> $LOGFILE
-		ckeckExit $? "fastx_trimmer on file 2"
+#	# Trim 5' end of reads
+#	printf "# fastx_trimmer\n" >> $LOGFILE
+#	printf "[ `date` ]\n" >> $LOGFILE
+#	fastx_trimmer -Q33 -i $file1 -f $F -o "${file1%.fastq}.FXT.fastq" 2>> $ERROR
+#		echo !! >> $LOGFILE
+#		ckeckExit $? "fastx_trimmer on file 1"
+#	printf "[ `date` ]\n" >> $LOGFILE
+#	fastx_trimmer -Q33 -i $file2 -f $F -o "${file2%.fastq}.FXT.fastq" 2>> $ERROR
+#		echo !! >> $LOGFILE
+#		ckeckExit $? "fastx_trimmer on file 2"
 	
 	# Remove adaptors
-	printf "\n# cutadapt\n" >> $LOGFILE
-	printf "[ `date` ]\n" >> $LOGFILE
-	cutadapt -b $A1 -b $A2 -b $A6 -b $A7 -b $A8 -q $Q -O $O -e $E -n $N -m $M -o "${file1%.fastq}.FXT.CA.fastq" "${file1%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
-		echo !! >> $LOGFILE
-		ckeckExit $? "cutadapt on file 1"
-	printf "[ `date` ]\n" >> $LOGFILE
-	cutadapt -b $A1 -b $A2 -b $A6 -b $A7 -b $A8 -q $Q -O $O -e $E -n $N -m $M -o "${file2%.fastq}.FXT.CA.fastq" "${file2%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
+#	printf "\n# cutadapt\n" >> $LOGFILE
+#	printf "[ `date` ]\n" >> $LOGFILE
+#	cutadapt -b $A1 -b $A2 -b $A6 -b $A7 -b $A8 -q $Q -O $O -e $E -n $N -m $M -o "${file1%.fastq}.FXT.CA.fastq" "${file1%.fastq}.FXT.fastq" >> $CU_LOG 2>> $ERROR
+#		echo !! >> $LOGFILE
+#		ckeckExit $? "cutadapt on file 1"
+#	printf "[ `date` ]\n" >> $LOGFILE
+	cutadapt -b $A9 -q $Q -O $O -e $E -n $N -m $M -o "${file2%.fastq}.FXT.CA-NEW.fastq" "${file2%.fastq}.FXT.CA.fastq" >> $CU_LOG 2>> $ERROR
 		echo !! >> $LOGFILE
 		ckeckExit $? "cutadapt on file 2"
 
 	# Quality filtering
 	printf "\n# fastq_quality_filter\n" >> $LOGFILE
 	printf "[ `date` ]\n" >> $LOGFILE
-	fastq_quality_filter -Q33 -q $K -p $P -i "${file1%.fastq}.FXT.CA.fastq" -o "${file1%.fastq}.FXT.CA.FQF.fastq" 2>> $ERROR
-		echo !! >> $LOGFILE
-		ckeckExit $? "fastq_quality_filter on file 1"
-	printf "[ `date` ]\n" >> $LOGFILE
-	fastq_quality_filter -Q33 -q $K -p $P -i "${file2%.fastq}.FXT.CA.fastq" -o "${file2%.fastq}.FXT.CA.FQF.fastq" 2>> $ERROR
+#	fastq_quality_filter -Q33 -q $K -p $P -i "${file1%.fastq}.FXT.CA.fastq" -o "${file1%.fastq}.FXT.CA.FQF.fastq" 2>> $ERROR
+#		echo !! >> $LOGFILE
+#		ckeckExit $? "fastq_quality_filter on file 1"
+#	printf "[ `date` ]\n" >> $LOGFILE
+	fastq_quality_filter -Q33 -q $K -p $P -i "${file2%.fastq}.FXT.CA-NEW.fastq" -o "${file2%.fastq}.FXT.CA.FQF.fastq" 2>> $ERROR
 		echo !! >> $LOGFILE
 		ckeckExit $? "fastq_quality_filter on file 2"
 
