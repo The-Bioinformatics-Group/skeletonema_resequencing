@@ -4,3 +4,6 @@ One run of trimming and filtering has been preformed. Cutadapt was set to remove
 ```bash
 cutadapt -b "GCGTCGTGTAGGGAAAGAGTGTAGGCTATAGTGTAGATCTCGGTGGTCGCCGTATCATTAAAAAAAAAA" -q 15 -O 10 -e 0.1 -n 1 -m 50 -o cutadapt_test.fastq 2_150723_BC6T2NANXX_P1872_103_2.FXT.CA.FQF.fastq > cutadapt_test.err.txt
 ```
+
+# Result
+1.4% of the reads where trimmed. More details can be found [here](cutadapt_test.err.txt)
