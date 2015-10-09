@@ -7,3 +7,6 @@ cutadapt -b "GCGTCGTGTAGGGAAAGAGTGTAGGCTATAGTGTAGATCTCGGTGGTCGCCGTATCATTAAAAAAAA
 
 # Result
 1.4% of the reads where trimmed. More details can be found [here](cutadapt_test.err.txt)
+
+# Update
+I'm runing a final fastqc analysis on the sequences in cutadapt\_test.fastqc to see if any additional overrepresented sequencs can be found.
