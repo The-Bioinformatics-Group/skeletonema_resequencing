@@ -20,6 +20,7 @@ set -o history -o histexpand
 	A7="GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 7
 	A8="GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG"	# TruSeq Adapter, Index 8
 	A9="GCGTCGTGTAGGGAAAGAGTGTAGGCTATAGTGTAGATCTCGGTGGTCGCCGTATCATTAAAAAAAAAA" # Illumina Single End PCR Primer 1
+       A10="GCGTCGTGTAGGGAAAGAGTGTCTTCGCCTGTGTAGATCTCGGTGGTCGCCGTATCATTAAAAAAAAAA" # Illumina Single End PCR Primer 1
 
 	# quality threshold for the 3' trimming.
 	Q=15	
@@ -95,7 +96,7 @@ if [ "$1" == "0" ]; then
 #		echo !! >> $LOGFILE
 #		ckeckExit $? "cutadapt on file 1"
 #	printf "[ `date` ]\n" >> $LOGFILE
-	cutadapt -b $A9 -q $Q -O $O -e $E -n $N -m $M -o "${file2%.fastq}.FXT.CA-NEW.fastq" "${file2%.fastq}.FXT.CA.fastq" >> $CU_LOG 2>> $ERROR
+	cutadapt -b $A10 -q $Q -O $O -e $E -n $N -m $M -o "${file2%.fastq}.FXT.CA-NEW.fastq" "${file2%.fastq}.FXT.CA.fastq" >> $CU_LOG 2>> $ERROR
 		echo !! >> $LOGFILE
 		ckeckExit $? "cutadapt on file 2"
 
