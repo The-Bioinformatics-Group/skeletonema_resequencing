@@ -5,6 +5,6 @@
 
 # Don't track any files in "data" or "test"
 data/**
-
+gene_search/**
 # misc
 *~
