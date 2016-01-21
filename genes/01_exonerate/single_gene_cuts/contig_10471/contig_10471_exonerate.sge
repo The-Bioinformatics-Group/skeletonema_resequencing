@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -o stdout_exonerate_single_10471_21_jan.txt
+#$ -e stderr_exonerate_single_10471_21_jan.txt
+#$ -j y
+#$ -S /bin/bash
+
+wait
+echo "Starting exonerate run at:"
+date
+wait
+
+exonerate --query ../../Both_sets_1.fasta --query ../../Both_sets_2.fasta --target contig_10471.fasta -m cdna2genome --showtargetgff yes --showalignment no --ryo ">%qi length=%ql alnlen=%qal\n>%ti length=%tl alnlen=%tal\n" > contig_10471_exonerate.output
+
+wait
+
+echo "Done at:"
+date

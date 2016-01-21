@@ -1,8 +1,8 @@
-# Don't track fasta, fastq or *gz files
+# Don't track fasta, fastq, bowtie2-db or *gz files
 *.fasta
 *.fastq
 *.gz
-
+*.bt2
 # Don't track any files in "data" or "test"
 data/**
 gene_search/**

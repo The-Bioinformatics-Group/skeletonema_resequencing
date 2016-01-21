@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -o stdout_exonerate1_12_jan.txa
+#$ -e stderr_exonerate1_12_jan.txt
+#$ -j y
+#$ -S /bin/bash
+
+wait
+
+exonerate --query Both_sets_1.fasta --query Both_sets_2.fasta --target gene_cut_performed_oriented_nonbac.fasta
+
+echo "Done at:"
+date
