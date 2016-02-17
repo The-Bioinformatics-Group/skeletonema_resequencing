@@ -1,0 +1,5 @@
+Starting getorf at:
+Wed Feb 10 14:12:02 CET 2016
+Finds and extracts open reading frames (ORFs)
+getorf done at:
+Wed Feb 10 14:12:04 CET 2016

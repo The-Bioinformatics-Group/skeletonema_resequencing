@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -o stdout_getorf_long_10_feb.txt
+#$ -e stderr_getorf_long_10_feb.txt
+#$ -j y
+#$ -S /bin/bash
+
+wait
+echo "Starting getorf at:"; date
+wait
+
+getorf -sequence Sm_homolog_list_dbSm_dbAK_combOneMatchsimilar_queryalt_Origin.fasta -outseq getorf_long_10_feb.fasta -find 3
+
+wait
+echo "getorf done at:"; date
+

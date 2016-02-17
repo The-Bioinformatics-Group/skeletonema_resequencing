@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -o stdout_getorf_long_revcomp_17_feb.txt
+#$ -e stderr_getorf_long_revcomp_17_feb.txt
+#$ -j y
+#$ -S /bin/bash
+
+wait
+echo "Starting getorf at:"; date
+wait
+
+getorf -sequence ../fw_and_rev_long_nounknown.fasta -outseq getorf_long_revcomp_17_feb.fasta -find 2
+
+wait
+echo "getorf done at:"; date
+
