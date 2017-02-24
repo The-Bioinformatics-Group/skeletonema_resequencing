@@ -1,4 +1,5 @@
 # Introduction
+* PWD: /nobackup/data6/skeletonema_resequencing/non-coding_regions
 * Non-coding regions without repeats were identified in 50 PacBio contigts with preliminary annotations. The jBrowser server on Albiorix was used for this.
 * The identified sequence were then BLASTed to the /nobackup/data5/data/skeletonema/assemblies/Sm_300-650_clc-assembly_novo_2000bp.fa database.
 
