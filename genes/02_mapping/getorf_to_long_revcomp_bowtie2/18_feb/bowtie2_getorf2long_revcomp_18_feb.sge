@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#$ -cwd
+#$ -o stdout_bowtie2_orfs2long_revcomp_18_feb.txt
+#$ -e stderr_bowtie2_orfs2long_revcomp_18_feb.txt
+#$ -j y
+#$ -S /bin/bash
+#$ -pe mpich 8
+
+wait
+echo "Starting bowtie2 mapping at:"
+date
+wait
+ 
+bowtie2 -f -x /nobackup/data6/skeletonema_resequencing/genes/07_tophat/fw_and_rev_long_nounknown.fasta -U /nobackup/data6/skeletonema_resequencing/genes/03_getorf/getorf_long_revcomp/18_feb/getorf_long_revcomp_18_feb.fasta -p 8 -D 20 -R 3 -N 0 -L 30 -i S,1,0.50 --end-to-end | samtools view -Sb - > getorf_to_long_mapped.bam
+
+wait
+echo "mapping & view completed at:"; date
+samtools sort getorf_to_long_mapped.bam -o getorf_to_long_revcomp_mapped_sorted_bowtie_18_feb.bam
+
+wait
+echo "sort completed at:"; date
+samtools index getorf_to_long_revcomp_mapped_sorted_bowtie_18_feb.bam
+rm getorf_to_long_mapped.bam
+wait
+echo "bowtie2 (all) mapping done at:"
+date

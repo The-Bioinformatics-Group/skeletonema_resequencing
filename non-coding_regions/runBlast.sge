@@ -1,0 +1,9 @@
+#$ -cwd
+#$ -q high_mem
+#$ -pe mpich 40
+#$ -S /bin/bash
+
+QUERY=nc_ref_v1_non-repeat.fst
+DB=/nobackup/data5/data/skeletonema/assemblies/Sm_300-650_clc-assembly_novo_2000bp.fa
+
+blastn -query $QUERY -db $DB -out nc_ref_v1_non-repeat_to_Sm_300-650_clc-assembly_novo_2000bp.BLASTn.txt
