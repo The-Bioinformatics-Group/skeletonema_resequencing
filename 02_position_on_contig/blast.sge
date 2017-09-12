@@ -1,0 +1,12 @@
+#$ -cwd
+#$ -pe mpich 20
+#$ -q Annotation-1
+#$ -S /bin/bash
+
+QUERY=../01_extracted_sequences/bedtools_getfasta_sequences.fst
+#DB=/db/sequenceserverdbs/Skeletonema_marinoi/016-016682-data-consensus.fasta
+DB=Sm_Ref.v1.fst 
+
+#blastn -query $QUERY -db $DB -num_threads $NSLOTS -out bedtools_getfasta_sequences_to_Sm_Ref.v1.BLASTn.txt
+
+blastn -query $QUERY -db $DB -num_threads $NSLOTS -outfmt 7 -out bedtools_getfasta_sequences_to_Sm_Ref.v1.BLASTn.txt
