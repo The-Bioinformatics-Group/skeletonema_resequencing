@@ -6,34 +6,40 @@
 module load Bowtie2/v2.2.7
 module load samtools/v1.3
 module load seqtk/v1.2-r94
+module load Bedtools2/v2.26.0
 
-REFERENCE=../../01_extracted_sequences/bedtools_getfasta_sequences.fst
-FILE1=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*1.fastq.gz
-FILE2=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*2.fastq.gz
+#REFERENCE=/nobackup/data6/skeletonema_resequencing/03_coverage/hi_cov_samles/bedtools_getfasta_sequences.fst
+REFERENCE=/nobackup/data6/skeletonema_resequencing/03_coverage/hi_cov_samles/reference_sequences/79_ref_seq.fst
+GENOME=/nobackup/data6/skeletonema_resequencing/03_coverage/hi_cov_samles/reference_sequences/79_ref_seq.genome
 
 
 #COMMAND="mapping_filtering.sh -d $REFERENCE -1 $FILE1 -2 $FILE2 -n $OUT -t $NSLOTS"
 
 
-for sample in "1001" "1002" "1003" "1004";
+for sample in "1001" "1002" "1003" "1004" "1005" "1006" "1007" "1008" "1009" "1010" "1011" "1012" "1013" "1014" "1014" "1015" "1016" "1016" "1017" "1018" "1019" "1020" "1021" "1022" "1023";
     do
+    	# Mapping
 	SAMPLE=$sample
+	FILE1=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*1.fastq.gz
+	FILE2=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*2.fastq.gz
 	OUT=P4005_${SAMPLE}
+	mkdir $OUT
 
-	mapping_filtering.sh -d $REFERENCE -1 $FILE1 -2 $FILE2 -n $OUT -t $NSLOTS
+#	mapping_filtering.sh -d $REFERENCE -1 $FILE1 -2 $FILE2 -n $OUT -t $NSLOTS
+	bowtie2 -x $REFERENCE -1 $FILE1 -2 $FILE2 -S $OUT/${SAMPLE}.sam -p $NSLOTS --no-unal 2> $OUT/README_mapping.txt
+#	bowtie2 -x $REFERENCE -1 $FILE1 -2 $FILE2 -p $NSLOTS 2> $OUT/README_mapping.txt	| samtools view -S -F4 - > $OUT/${SAMPLE}.sam
 
-	rm -rf $SAMPLE/half_mapped_reads
-	rm -rf $SAMPLE/non_mapped_reads
-	rm -rf $SAMPLE/lists
+	# SAM > sorted BAM
+	samtools view -Sb $OUT/${SAMPLE}.sam > $OUT/${SAMPLE}.bam
+#	rm $OUT/${SAMPLE}.sam
+	samtools sort $OUT/${SAMPLE}.bam $OUT/${SAMPLE}.sorted
+#	rm $OUT/${SAMPLE}.bam
+
+	# Index BAM
+	samtools index $OUT/${SAMPLE}.sorted.bam
+
+
+	# Calculate coverage
+	bedtools genomecov -d -ibam $OUT/${SAMPLE}.sorted.bam -g $GENOME > $OUT/${SAMPLE}.coverage.csv
     done
-#SAMPLE=1002
-#COMMAND
-
-#SAMPLE=1003
-#COMMAND
-
-# ./mapping_filtering.sh -d Sm_transcriptome_sex-STRINITY_DN8764_c0_g1_i1.fa \
-# -1 /nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/1F_fastq-q-filt_sorted.fastq,/nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/2F_fastq-q-filt_sorted.fastq \
-# -2 /nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/1R_fastq-q-filt_sorted.fastq,/nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/2R_fastq-q-filt_sorted.fastq \
-# -n FABP_Trans -t 20
 
