@@ -1,0 +1,39 @@
+#$ -cwd
+#$ -q Annotation-1
+#$ -pe mpich 40
+#$ -S /bin/bash
+
+module load Bowtie2/v2.2.7
+module load samtools/v1.3
+module load seqtk/v1.2-r94
+
+REFERENCE=../../01_extracted_sequences/bedtools_getfasta_sequences.fst
+FILE1=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*1.fastq.gz
+FILE2=../../data/A.Godhe_16_01/P4005_${SAMPLE}/160225_AC86M1ANXX/*2.fastq.gz
+
+
+#COMMAND="mapping_filtering.sh -d $REFERENCE -1 $FILE1 -2 $FILE2 -n $OUT -t $NSLOTS"
+
+
+for sample in "1001" "1002" "1003" "1004";
+    do
+	SAMPLE=$sample
+	OUT=P4005_${SAMPLE}
+
+	mapping_filtering.sh -d $REFERENCE -1 $FILE1 -2 $FILE2 -n $OUT -t $NSLOTS
+
+	rm -rf $SAMPLE/half_mapped_reads
+	rm -rf $SAMPLE/non_mapped_reads
+	rm -rf $SAMPLE/lists
+    done
+#SAMPLE=1002
+#COMMAND
+
+#SAMPLE=1003
+#COMMAND
+
+# ./mapping_filtering.sh -d Sm_transcriptome_sex-STRINITY_DN8764_c0_g1_i1.fa \
+# -1 /nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/1F_fastq-q-filt_sorted.fastq,/nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/2F_fastq-q-filt_sorted.fastq \
+# -2 /nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/1R_fastq-q-filt_sorted.fastq,/nobackup/data5/skeletonema_sex_project/data/treated-data/skeletonema-pairend-data/fastq_quality_filter_results/2R_fastq-q-filt_sorted.fastq \
+# -n FABP_Trans -t 20
+
