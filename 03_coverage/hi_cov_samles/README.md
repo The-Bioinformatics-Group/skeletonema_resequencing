@@ -24,3 +24,6 @@ A number of samples where sequenced to a grater depth. These are called:
 * 1023 MF02.5-02
 
 where the first part (e.g. 1003) corresponds to the sample id added by the sequencing facility (SciLifLab) and the second part corresponds to Mariagerfjord (MF) depth in sediment core (e.g. 19.5 cm) and original (?) sample number.
+
+# Notes
+* Average coverage has been calculated for the whole contig, not just the loci of interest.
